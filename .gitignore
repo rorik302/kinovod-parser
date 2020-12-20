@@ -1,4 +1,7 @@
 .idea
+build
+dist
 venv
+main.spec
 results.csv
 url.txt
