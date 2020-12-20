@@ -54,6 +54,7 @@ if __name__ == '__main__':
         loop_count += 1
         url = root_url_split[0] + str(suffix) + '.' + root_url_split[1]
         try:
+            print(f'Проверка адреса: {url}')
             req = requests.get(url, headers=headers, timeout=2)
             target_url = url
             print(f'Рабочий адрес: {url}')
@@ -64,6 +65,7 @@ if __name__ == '__main__':
     # Запись рабочего адреса в файл, чтобы можно было начать поиск с этого адреса в следующий раз
     with open('url.txt', 'w') as f:
         f.write(target_url)
+        print('Адрес записан в файл')
 
     # Список фильмов в лицензионном качестве
     target_url += 'films?video=license'
@@ -77,6 +79,7 @@ if __name__ == '__main__':
 
     # Получаем ссылки на фильмы
     films_href = []
+    print(f'Получаем ссылки на фильмы...')
     for url in pages:
         req = requests.get(url)
         soup = BeautifulSoup(req.text, 'lxml')
@@ -87,10 +90,12 @@ if __name__ == '__main__':
 
     # Получаем данные фильмов
     films_data = []
+    print(f'Получаем данные по каждому фильму..')
     for film_url in films_href:
         films_data.append(get_film_data(film_url))
 
     # Сохраняем данные в файл
+    print('Сохраняем данные в файл')
     with open('results.csv', 'w', newline='') as file:
         csv_writer = csv.writer(file, delimiter=';')
         csv_writer.writerow(['Название', 'Ссылка', 'Год', 'Страна', 'Жанр', 'Рейтинг'])
